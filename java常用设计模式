@@ -1,0 +1,346 @@
+创建型模式
+
+
+    单例模式： 确保某个类有且只有一个对象的场景，避免产生多个对象消耗过多的资源
+
+            1. 饿汉方式(线程安全)
+                public class Singleton {
+                //在静态初始化器中创建单例实例，这段代码保证了线程安全
+                    private static Singleton uniqueInstance = new Singleton();
+                    //Singleton类只有一个构造方法并且是被private修饰的，所以用户无法通过new方法创建该对象实例
+                    private Singleton(){}
+                    public static Singleton getInstance(){
+                        return uniqueInstance;
+                    }
+                }
+
+            2.  懒汉式（非线程安全和synchronized关键字线程安全版本 ）
+                public class Singleton {  
+                    private static Singleton uniqueInstance;  
+                        private Singleton (){
+                        }   
+                        //没有加入synchronized关键字的版本是线程不安全的 ，加上 synchronized  线程安全
+                        public static Singleton getInstance() {
+                            //判断当前单例是否已经存在，若存在则返回，不存在则再建立单例
+                            if (uniqueInstance == null) {  
+                                uniqueInstance = new Singleton();  
+                            }  
+                            return uniqueInstance;  
+                        }  
+                }
+
+
+
+
+        工厂模式：在任何需要生成复杂对象的地方，都可以使用工厂方法模式。复杂对象适合使用工厂模式，（批量生产）
+
+                    public interface Shape {
+                        void draw();
+                    }
+
+                    public class Circle implements Shape {
+                        public Circle() {
+                            System.out.println("Circle");
+                        }
+                        @Override
+                        public void draw() {
+                            System.out.println("Draw Circle");
+                        }
+                    }
+
+                    public class Rectangle implements Shape {
+                        public Rectangle() {
+                            System.out.println("Rectangle");
+                        }
+                        @Override
+                        public void draw() {
+                            System.out.println("Draw Rectangle");
+                        }
+                    }
+
+             // 工厂类
+
+            public class ShapeFactory {
+
+            // 使用 getShape 方法获取形状类型的对象
+                public static Shape getShape(String shapeType) {
+                    if (shapeType == null) {
+                        return null;
+                    }
+                    if (shapeType.equalsIgnoreCase("CIRCLE")) {
+                        return new Circle();
+                    } else if (shapeType.equalsIgnoreCase("RECTANGLE")) {
+                        return new Rectangle();
+                    } else if (shapeType.equalsIgnoreCase("SQUARE")) {
+                        return new Square();
+                    }
+                    return null;
+                }
+            }
+ 
+
+             // 获取 Circle 的对象，并调用它的 draw 方法
+            Shape circle = ShapeFactory.getShape("CIRCLE");
+            circle.draw();
+
+            // 获取 Rectangle 的对象，并调用它的 draw 方法
+            Shape rectangle = ShapeFactory.getShape("RECTANGLE");
+            rectangle.draw();
+
+
+
+        建造者模式 ： 将一个复杂对象的构建和它的表示分离，使得同样的构建过程可以创建不同的表示（灵活装配）
+
+            public class Person {
+                private String name;
+                private boolean sex;
+                private int age;
+                private float height;
+                private float weight;
+
+
+                public Person(String name, boolean sex, int age, float height, float weight) {
+                    this.name = name;
+                    this.sex = sex;
+                    this.age = age;
+                    this.height = height;
+                    this.weight = weight;
+                }
+
+            }
+
+            public class Builder {
+                private String name;
+                private boolean sex;
+                private int age;
+                private float height;
+                private float weight;
+
+                public Builder setName(String name) {
+                    this.name = name;
+                    return this;
+                }
+
+                public Builder setSex(boolean sex) {
+                    this.sex = sex;
+                    return this;
+                }
+
+                public Builder setAge(int age) {
+                    this.age = age;
+                    return this;
+                }
+
+                public Builder setHeight(float height) {
+                    this.height = height;
+                    return this;
+                }
+
+                public Builder setWeight(float weight) {
+                    this.weight = weight;
+                    return this;
+                }
+
+                public Person create() {
+                    return new Person(name, sex, age, height, weight);
+                }
+            }
+
+            
+            Builder builder = new Builder();
+            builder.setName("Mirhunana");
+            builder.setAge(23);
+            Perons person = builder.create();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);  
+            builder.setIcon(R.drawable.icon);  
+            builder.setTitle("Title");  
+            builder.setMessage("Message");  
+            builder.setPositiveButton("Button1",  
+                    new DialogInterface.OnClickListener() {  
+                        public void onClick(DialogInterface dialog, int whichButton) {  
+                            setTitle("点击了对话框上的Button1");  
+                        }  
+                    });  
+            builder.setNeutralButton("Button2",  
+                    new DialogInterface.OnClickListener() {  
+                        public void onClick(DialogInterface dialog, int whichButton) {  
+                            setTitle("点击了对话框上的Button2");  
+                        }  
+                    });  
+            builder.setNegativeButton("Button3",  
+                    new DialogInterface.OnClickListener() {  
+                        public void onClick(DialogInterface dialog, int whichButton) {  
+                            setTitle("点击了对话框上的Button3");  
+                        }  
+                    });  
+            builder.create().show();  // 构建AlertDialog， 并且显示
+        
+
+结构型模式 ： 把一种接口变换成客户端所期待的另一种接口，从而使原本因接口不匹配而无法在一起工作的两个类能够在一起工作（把现有的东西 做兼容）
+
+    适配器模式
+        public interface FiveVolt {
+            /**
+            * 返回5V电压
+            * @return 电压值
+            */
+            public int getVolt5();
+        }
+
+        public class Volt220 {
+            public int getVolt220() {
+                return 220;
+            }
+        }
+
+        适配器类
+        public class VoltAdapter implements FiveVolt {
+
+            Volt220 mVolt220;
+
+            public VoltAdapter(Volt220 volt220) {
+                mVolt220 = volt220;
+            }
+
+            @Override
+            public int getVolt5() {
+                return 5;
+            }
+
+            public int getVolt220() {
+                return mVolt220.getVolt220();
+            }
+        }
+
+        在使用ListView时，每一项的布局和数据都不一样，但是最后输出都可以看作是一个View，这就对应了上面的适配器模式应用场景的第三条：需要一个统一的输出接口，而输入端的接口不可预知。
+
+
+
+    代理模式 ： 代理对象通过自身的逻辑处理对目标对象的功能进行控制。
+
+            public interface Play {
+                //唱歌
+                void sing(int count);
+                //演出
+                void show();
+            }
+
+            复制代码2、演员（被代理对象）：
+            public class Actor implements Play {
+                @Override
+                public void sing(int count) {
+                    System.out.print("唱了" + count + "首歌");
+                }
+
+                @Override
+                public void show() {
+                    System.out.print("进行演出");
+                }
+            }
+
+            public class Agent implements Play {
+                //被代理对象
+                private Play player;
+                private long money;
+
+                public void setMoney(long money){
+                    this.money = money;
+                }
+
+                /**
+                * @param player
+                * @param money 收费
+                */
+                public Agent(Play player, long money) {
+                    this.player = player;
+                    this.money = money;
+                }
+
+                @Override
+                public void sing(int count) {
+                    player.sing(count);
+                }
+                //控制了被代理对象的访问
+                @Override
+                public void show() {
+                    if (money > 100) {
+                    player.show();
+                    } else {
+                    System.out.println("baibai...");
+                    }
+                }
+            }  
+
+
+行为型模式
+
+    观察者模式 ： 对象间的一种一对多的依赖关系，使得每当一个对象改变状态，则所有依赖于它的对象都会得到通知并被自动更新（订阅关系，被订阅者发生改变，通知所有订阅者）
+
+        public interface Observer  {
+            void onUpdate();
+        }
+
+        public class ObserverImpl implements Observer {
+                private String myOnlyAttr;
+               
+                /*刷新自己*/
+                @Override
+                public void onUpdate() {
+                   // todo
+                   myOnlyAttr 改变
+                }
+
+                public String getMyOnlyAttr() {
+                    return myOnlyAttr;
+                }
+        }
+
+
+        public abstract class Subject {
+            /*将一个被观察者对象和多个观察者对象绑定起来*/
+             protected List<Observer> observers = new ArrayList<>();
+            /*添加观察者，我们可能需要各种各样的观察者*/
+            public void attachObserver(Observer observer){
+                if (null ==observer){
+                    throw new NullPointerException();
+                }
+                if (!observers.contains(observer)){
+                    observers.add(observer);
+                }
+            }
+            public void detachObserver(Observer observer){
+                if (null ==observer){
+                    throw new NullPointerException();
+                }
+                if (observers.contains(observer)){
+                    observers.remove(observer);
+                }
+            }
+            public abstract void notifyObserverUpdate();
+        }
+
+        public class SubjectImpl extends Subject {
+            @Override
+            public void notifyObserverUpdate() {
+                for (Observer observer :observers){
+                    observer.onUpdate();
+                }
+            }
+        }
+
+        //使用
+          observer = new ObserverImpl();
+          subject = new SubjectImpl();
+          /*绑定观察者*/
+          subject.attachObserver(observer);
+          /*通知观察者刷新*/
+          subject.notifyObserverUpdate();
+
+
+
+
+
+
+
+
