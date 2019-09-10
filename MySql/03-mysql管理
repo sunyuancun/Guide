@@ -1,0 +1,8 @@
+1.启动及关闭 MySQL 服务器
+    Windows 系统下
+    启动服务 mysqld --console
+    关闭服务 mysqladmin -uroot shutdown
+
+2. MySQL 用户设置
+
+3. 

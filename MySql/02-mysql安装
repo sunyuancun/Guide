@@ -1,0 +1,25 @@
+
+1.  Windows 上安装 MySQL 下载安装即可
+    https://cdn.mysql.com//Downloads/MySQL-8.0/mysql-8.0.17-winx64.zip 下载 zip 包。
+2. 配置下 MySQL 的配置文件
+    1. 设置mysql环境变量 D:\soft\php_soft\mysql\bin  ==PATH
+    2. 在mysql根目录（D:\soft\php_soft\mysql）新建或编辑my.ini文件
+
+3. 安装mysql服务
+     mysqld --install MySQL --defaults-file="my.ini"
+     提示"Service successfully installed."表示成功;
+
+4. 检测服务
+    1. 命令mysql  出现 ERROR 1045 (28000): Access denied for user 'ODBC'@'localhost' (using password: NO)
+    解决办法：用户管理权限问题，用root用户测试   mysql -uroot -p123456
+    出现版本信息MySQL 服务器的版本信息,表明 MySQL 已经安装成功。http://c.biancheng.net/uploads/allimg/190220/4-1Z2201439234W.gif
+
+
+5. mysql服务启动、关闭、重启
+
+
+    1.查看windows服务列表
+    计算机--管理--服务和应用程序--服务
+
+    2. 启动失败问题
+    MySQL 服务正在启动 .MySQL 服务无法启动。 ==需要初始化data目录 mysqld  --initialize
