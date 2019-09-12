@@ -1,0 +1,27 @@
+https://zhuanlan.zhihu.com/p/33625545  知乎
+
+1. mysql服务启动、关闭、重启
+
+    net start mysql名称
+
+    net stop mysql名称
+
+    net restart mysql名称
+
+2. mysql数据库操作
+
+    //查看数据库
+    show databases;
+        mysql - 用户权限相关数据
+        information_schema - MySQL本身架构相关数据
+
+    //创建数据库db1
+    create database db1 DEFAULT CHARSET utf8 COLLATE utf8_general_ci; # utf8编码
+
+    //使用数据库
+    use db1;
+
+    //当前使用的数据库中所有表
+    SHOW TABLES;
+
+3. mysql表操作

@@ -17,9 +17,8 @@
 
 5. mysql服务启动、关闭、重启
 
+    net start mysql名称
 
-    1.查看windows服务列表
-    计算机--管理--服务和应用程序--服务
+    net stop mysql名称
 
-    2. 启动失败问题
-    MySQL 服务正在启动 .MySQL 服务无法启动。 ==需要初始化data目录 mysqld  --initialize
+    net restart mysql名称
