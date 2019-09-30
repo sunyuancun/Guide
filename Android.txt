@@ -1,14 +1,1 @@
-1. 基础知识
 
-2. 第三方框架
-
-3.JNI
-
-
-4. Android App的设计架构：MVC,MVP,MVVM与架构经验谈
-   https://www.tianmaying.com/tutorial/AndroidMVC
-
-5. 线程进程
-
-
- 
